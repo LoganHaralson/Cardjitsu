@@ -165,6 +165,6 @@ class TestFunctions(unittest.TestCase):
 if __name__ == "__main__":
     # unittest.main()
     gamestate = GameState()
-    while True:
+    while 0 != 1:
         gamestate.play_round()
         # find a way to get user input and pass it to the gamestate
