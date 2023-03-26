@@ -50,6 +50,8 @@ class GameState:
 
         self.player1.draw_card()
         self.player2.draw_card()
+        # determine which player is choosing a card to play
+
         # both players play a card
         card1 = self.player1.choose_card()
         card2 = self.player2.choose_card()
@@ -62,7 +64,7 @@ class GameState:
             self.player1.collect_card(card1)
             print("Player 1 collected their card.")
         else:
-            print("No cards were collected.")
+            print("No card was collected.")
 
         # determine a winning player based on collected cards
         # a player wins by collecting three cards of different colors with the same element or all three elements
@@ -70,6 +72,7 @@ class GameState:
 
 class Player:
     def __init__(self):
+        self.name = input("Enter your nickname: ")
         self.deck = Deck()
         self.deck.shuffle()
         self.hand = self.deck.draw_hand()
@@ -79,17 +82,29 @@ class Player:
         self.hand.append(self.deck.take_card())
 
     def choose_card(self):
-        return self.hand.pop()
+        n = 0
+        for card in self.hand:
+            print(f"{n+1}, {card}")
+            n += 1
+        print(f"{self.name}'s turn.")
+        print("What card would you like to play from your hand?")
+        played_card = int(input("Input a number 1 through 5: ")) - 1
+        return self.hand.pop(played_card)
 
     def collect_card(self, card):
         self.card_collection.append(card)
+
+
+class Computer(Player):
+    def choose_card(self):
+        return self.hand.pop()
 
 
 class Deck:
     colors = ['red', 'blue', 'orange', 'green', 'yellow', 'purple']
     ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     elements = ['Fire', 'Water', 'Snow']
-# creates a collection of cards
+    # creates a collection of cards
 
     def __init__(self):
         cards = []
@@ -167,4 +182,23 @@ if __name__ == "__main__":
     gamestate = GameState()
     while 0 != 1:
         gamestate.play_round()
-        # find a way to get user input and pass it to the gamestate
+        ''' 
+        find a way to get user input and pass it to the gamestate
+        implement game logic: User input, how it effects each round, how a player wins and what happens when a player wins.
+        
+        
+        
+        print which player's turn it is
+        print the player's hand
+        get user input: determine played cards
+        prompt: Which card would you like to play from your hand?
+        Input a number 1 through 5. :
+
+        after both players select their cards, compare the two cards and determine the winning card.
+
+        the winning player collects the card that they played to a seperate deck while the losing player discards their's.
+
+        if a player collects three differently colored cards of either the same element or different elements they win.
+
+        When a player wins, declare the victor, end the game and ask if they want to play again.
+        '''
