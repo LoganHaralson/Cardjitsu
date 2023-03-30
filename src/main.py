@@ -2,39 +2,39 @@ import random
 import unittest
 
 
-class Element:
+class Weapon:
     weaknesses = {
-        'Fire': 'Water',
-        'Snow': 'Fire',
-        'Water': 'Snow'
+        'Sword': 'Shield',
+        'Bow': 'Sword',
+        'Shield': 'Bow'
     }
 
-    def __init__(self, element):
-        self.element = element
+    def __init__(self, weapon):
+        self.weapon = weapon
 
     def __lt__(self, other):
-        return self.weaknesses[self.element] == other.element
+        return self.weaknesses[self.weapon] == other.weapon
 
     def __eq__(self, other):
-        return self.element == other.element
+        return self.weapon == other.weapon
 
     def __str__(self):
-        return self.element
+        return self.weapon
 
 
 class Card:
-    def __init__(self, color, rank, element):
-        self.color = color
+    def __init__(self, element, rank, weapon):
+        self.element = element
         self.rank = rank
-        self.element = Element(element)
+        self.weapon = Weapon(weapon)
 
     def __str__(self):
-        return f"{self.color} {self.rank} of {self.element}"
+        return f"{self.element} {self.weapon} with power {self.rank}"
 
     def __lt__(self, other):
-        if self.element < other.element:
+        if self.weapon < other.weapon:
             return True
-        elif self.element == other.element:
+        elif self.weapon == other.weapon:
             return self.rank < other.rank
         else:
             return False
@@ -67,7 +67,7 @@ class GameState:
             print("No card was collected.")
 
         # determine a winning player based on collected cards
-        # a player wins by collecting three cards of different colors with the same element or all three elements
+        # a player wins by collecting three cards of different elements with the same weapon or all three weapons
 
 
 class Player:
@@ -101,17 +101,17 @@ class Computer(Player):
 
 
 class Deck:
-    colors = ['red', 'blue', 'orange', 'green', 'yellow', 'purple']
+    elements = ['Fire', 'Water', 'Void', 'Earth', 'Lightning', 'Crystal']
     ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    elements = ['Fire', 'Water', 'Snow']
+    weapons = ['Sword', 'Shield', 'Bow']
     # creates a collection of cards
 
     def __init__(self):
         cards = []
-        for color in self.colors:
+        for element in self.elements:
             for rank in self.ranks:
-                for element in self.elements:
-                    card = Card(color, rank, element)
+                for weapon in self.weapons:
+                    card = Card(element, rank, weapon)
                     cards.append(card)
         self.cards = cards
 
@@ -129,35 +129,35 @@ class Deck:
 
 
 class TestFunctions(unittest.TestCase):
-    def test_element_eq(self):
-        fire = Element("Fire")
-        water = Element("Water")
-        snow = Element("Snow")
-        self.assertTrue(fire == fire)
-        self.assertTrue(water == water)
-        self.assertTrue(snow == snow)
-        self.assertFalse(snow == fire)
-        self.assertFalse(fire == water)
-        self.assertFalse(water == snow)
+    def test_weapon_eq(self):
+        Sword = Weapon("Sword")
+        Shield = Weapon("Shield")
+        Bow = Weapon("Bow")
+        self.assertTrue(Sword == Sword)
+        self.assertTrue(Shield == Shield)
+        self.assertTrue(Bow == Bow)
+        self.assertFalse(Bow == Sword)
+        self.assertFalse(Sword == Shield)
+        self.assertFalse(Shield == Bow)
 
-    def test_element_lt(self):
-        fire = Element("Fire")
-        water = Element("Water")
-        snow = Element("Snow")
-        self.assertTrue(fire < water)
-        self.assertTrue(water < snow)
-        self.assertTrue(snow < fire)
-        self.assertFalse(snow < snow)
-        self.assertFalse(fire < fire)
-        self.assertFalse(water < water)
-        self.assertFalse(fire < snow)
-        self.assertFalse(water < fire)
-        self.assertFalse(snow < water)
+    def test_weapon_lt(self):
+        Sword = Weapon("Sword")
+        Shield = Weapon("Shield")
+        Bow = Weapon("Bow")
+        self.assertTrue(Sword < Shield)
+        self.assertTrue(Shield < Bow)
+        self.assertTrue(Bow < Sword)
+        self.assertFalse(Bow < Bow)
+        self.assertFalse(Sword < Sword)
+        self.assertFalse(Shield < Shield)
+        self.assertFalse(Sword < Bow)
+        self.assertFalse(Shield < Sword)
+        self.assertFalse(Bow < Shield)
 
     def test_card_eq(self):
-        card1 = Card('orange', 4, 'Fire')
-        card2 = Card('purple', 7, 'Water')
-        card3 = Card('blue', 5, 'Snow')
+        card1 = Card('void', 4, 'Sword')
+        card2 = Card('Crystal', 7, 'Shield')
+        card3 = Card('Water', 5, 'Bow')
         self.assertTrue(card1 == card1)
         self.assertTrue(card2 == card2)
         self.assertTrue(card3 == card3)
@@ -166,9 +166,9 @@ class TestFunctions(unittest.TestCase):
         self.assertFalse(card3 == card1)
 
     def test_card_lt(self):
-        card1 = Card('orange', 4, 'Fire')
-        card2 = Card('purple', 7, 'Water')
-        card3 = Card('blue', 5, 'Water')
+        card1 = Card('void', 4, 'Sword')
+        card2 = Card('Crystal', 7, 'Shield')
+        card3 = Card('Water', 5, 'Shield')
         self.assertTrue(card1 < card2)
         self.assertTrue(card1 < card3)
         self.assertTrue(card3 < card2)
@@ -198,7 +198,7 @@ if __name__ == "__main__":
 
         the winning player collects the card that they played to a seperate deck while the losing player discards their's.
 
-        if a player collects three differently colored cards of either the same element or different elements they win.
-
+        if a player collects three of the same weapons with different elements or all three weapons of different elements, they win the game.
+        
         When a player wins, declare the victor, end the game and ask if they want to play again.
         '''
