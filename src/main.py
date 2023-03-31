@@ -42,10 +42,19 @@ class Card:
 
 class GameState:
     def __init__(self):
-        self.player1 = Player()
-        self.player2 = Player()
+        print("Would you like to play against the computer or another player?")
+        match_type = int(
+            input("Enter 0 for computer match or 1 for a player match: "))
 
-    # for each round--
+        self.player1 = Human()
+        if match_type == 0:
+            self.player2 = Computer()
+        elif match_type == 1:
+            self.player2 = Human()
+        else:
+            print("Error, invalid input. Please try again.")
+            # for each round--
+
     def play_round(self):
 
         self.player1.draw_card()
@@ -71,8 +80,8 @@ class GameState:
 
 
 class Player:
-    def __init__(self):
-        self.name = input("Enter your nickname: ")
+    def __init__(self, name):
+        self.name = name
         self.deck = Deck()
         self.deck.shuffle()
         self.hand = self.deck.draw_hand()
@@ -81,23 +90,34 @@ class Player:
     def draw_card(self):
         self.hand.append(self.deck.take_card())
 
-    def choose_card(self):
-        n = 0
-        for card in self.hand:
-            print(f"{n+1}, {card}")
-            n += 1
-        print(f"{self.name}'s turn.")
-        print("What card would you like to play from your hand?")
-        played_card = int(input("Input a number 1 through 5: ")) - 1
-        return self.hand.pop(played_card)
-
     def collect_card(self, card):
         self.card_collection.append(card)
 
 
 class Computer(Player):
+
+    def __init__(self):
+        self.name = "computer"
+        super().__init__(name)
+
     def choose_card(self):
         return self.hand.pop()
+
+
+class Human(Player):
+    def __init__(self):
+        self.name = input("Enter your nickname: ")
+
+    def choose_card(self):
+        n = 0
+        print(f"{self.name}'s turn.")
+        for card in self.hand:
+            print(f"{n+1}, {card}")
+            n += 1
+
+        print("What card would you like to play from your hand?")
+        played_card = int(input("Input a number 1 through 5: ")) - 1
+        return self.hand.pop(played_card)
 
 
 class Deck:
