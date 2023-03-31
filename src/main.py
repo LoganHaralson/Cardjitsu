@@ -120,8 +120,9 @@ class Computer(Player):
         super().__init__()
 
     def choose_card(self):
-        return self.hand.pop()
-    # have the computer choose a random card here
+        # randomly select a card from the hand
+        index = random.randint(0, len(self.hand)-1)
+        return self.hand.pop(index)
 
 
 class Deck:
