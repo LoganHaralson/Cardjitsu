@@ -153,6 +153,12 @@ class Deck:
         return hand
 
 
+# This class will keep track of the collected cards and look for win conditions
+class winGame:
+    def __init__(self):
+        pass
+
+
 class TestFunctions(unittest.TestCase):
     def test_weapon_eq(self):
         Sword = Weapon("Sword")
@@ -208,20 +214,6 @@ if __name__ == "__main__":
     while 0 != 1:
         gamestate.play_round()
         ''' 
-        find a way to get user input and pass it to the gamestate
-        implement game logic: User input, how it effects each round, how a player wins and what happens when a player wins.
-        
-        
-        
-        print which player's turn it is
-        print the player's hand
-        get user input: determine played cards
-        prompt: Which card would you like to play from your hand?
-        Input a number 1 through 5. :
-
-        after both players select their cards, compare the two cards and determine the winning card.
-
-        the winning player collects the card that they played to a seperate deck while the losing player discards their's.
 
         if a player collects three of the same weapons with different elements or all three weapons of different elements, they win the game.
         
