@@ -64,14 +64,15 @@ class GameState:
         # both players play a card
         card1 = self.player1.choose_card()
         card2 = self.player2.choose_card()
-        print(f"{card1}, {card2}")
+        print(f"{self.player1.name}'s card: {card1}")
+        print(f"{self.player2.name}'s card: {card2}")
         # compare the cards and collect the winning card
         if card1 < card2:
             self.player2.collect_card(card2)
-            print("Player 2 collected their card.")
+            print(f"{self.player2.name} collected their card.")
         elif card2 < card1:
             self.player1.collect_card(card1)
-            print("Player 1 collected their card.")
+            print(f"{self.player1.name} collected their card.")
         else:
             print("No card was collected.")
 
@@ -80,8 +81,7 @@ class GameState:
 
 
 class Player:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self):
         self.deck = Deck()
         self.deck.shuffle()
         self.hand = self.deck.draw_hand()
@@ -90,34 +90,38 @@ class Player:
     def draw_card(self):
         self.hand.append(self.deck.take_card())
 
+    def choose_card(self):
+        print("\n")
+        print(f"{self.name}'s turn.")
+        print("\n")
+        n = 0
+        for card in self.hand:
+            print(f"{n+1}, {card}")
+            n += 1
+        print("\n")
+        print("Which card would you like to play from your hand?")
+        played_card = int(input("Input a number 1 through 5: ")) - 1
+        print("\n")
+        return self.hand.pop(played_card)
+
     def collect_card(self, card):
         self.card_collection.append(card)
-
-
-class Computer(Player):
-
-    def __init__(self):
-        self.name = "computer"
-        super().__init__()
-
-    def choose_card(self):
-        return self.hand.pop()
 
 
 class Human(Player):
     def __init__(self):
         self.name = input("Enter your nickname: ")
+        super().__init__()
+
+
+class Computer(Player):
+    def __init__(self):
+        self.name = "Computer"
+        super().__init__()
 
     def choose_card(self):
-        n = 0
-        print(f"{self.name}'s turn.")
-        for card in self.hand:
-            print(f"{n+1}, {card}")
-            n += 1
-
-        print("What card would you like to play from your hand?")
-        played_card = int(input("Input a number 1 through 5: ")) - 1
-        return self.hand.pop(played_card)
+        return self.hand.pop()
+    # have the computer choose a random card here
 
 
 class Deck:
