@@ -98,7 +98,7 @@ class Computer(Player):
 
     def __init__(self):
         self.name = "computer"
-        super().__init__(name)
+        super().__init__()
 
     def choose_card(self):
         return self.hand.pop()
