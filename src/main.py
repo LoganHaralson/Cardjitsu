@@ -49,7 +49,7 @@ class GameState:
         while True:
             try:
                 match_type = int(input(prompt))
-            except:
+            except Exception:
                 print("Error! Invalid input.")
                 continue
             if match_type == 0:
@@ -85,6 +85,15 @@ class GameState:
         # a player wins by collecting three cards of different elements with the same weapon or all three weapons
 
 
+class OutOfRange(Exception):
+    def __init__(self, entered):
+        self.entered = entered
+        super().__init__()
+
+    def __str__(self):
+        return f"You entered {self.entered}, expected 1 through 5"
+
+
 class Player:
     def __init__(self):
         self.deck = Deck()
@@ -105,9 +114,17 @@ class Player:
             n += 1
         print("\n")
         print("Which card would you like to play from your hand?")
-        played_card = int(input("Input a number 1 through 5: ")) - 1
-        print("\n")
-        return self.hand.pop(played_card)
+        while True:
+            try:
+                played_card = int(input("Input a number 1 through 5: "))
+                if played_card < 1 or played_card > 5:
+                    raise OutOfRange(played_card)
+            except ValueError as err:
+                print("Invalid input. Expected a number")
+            except OutOfRange as err:
+                print(err)
+            else:
+                return self.hand.pop(played_card - 1)
 
     def collect_card(self, card):
         self.card_collection.append(card)
