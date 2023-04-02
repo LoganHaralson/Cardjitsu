@@ -4,9 +4,9 @@ import unittest
 
 class Weapon:
     weaknesses = {
-        'Sword': 'Shield',
-        'Bow': 'Sword',
-        'Shield': 'Bow'
+        'Shield': 'Sword',
+        'Bow': 'Shield',
+        'Sword': 'Bow'
     }
 
     def __init__(self, weapon):
@@ -42,18 +42,23 @@ class Card:
 
 class GameState:
     def __init__(self):
-        print("Would you like to play against the computer or another player?")
-        match_type = int(
-            input("Enter 0 for computer match or 1 for a player match: "))
-
+        prompt = "Enter 0 for computer match or 1 for a player match: "
         self.player1 = Human()
-        if match_type == 0:
-            self.player2 = Computer()
-        elif match_type == 1:
-            self.player2 = Human()
-        else:
-            print("Error, invalid input. Please try again.")
-            # for each round--
+
+        print("Would you like to play against the computer or another player?")
+        while True:
+            try:
+                match_type = int(input(prompt))
+            except:
+                print("Error! Invalid input.")
+                continue
+            if match_type == 0:
+                self.player2 = Computer()
+                return
+            if match_type == 1:
+                self.player2 = Human()
+                return
+            print("Invalid input, expected a 0 or a 1")
 
     def play_round(self):
 
@@ -120,15 +125,15 @@ class Computer(Player):
         super().__init__()
 
     def choose_card(self):
-        # randomly select a card from the hand
-        index = random.randint(0, len(self.hand)-1)
+        # the computer randomly selects a card from it's hand
+        index = random.randint(0, 4)
         return self.hand.pop(index)
 
 
 class Deck:
     elements = ['Fire', 'Water', 'Void', 'Earth', 'Lightning', 'Crystal']
     ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-    weapons = ['Sword', 'Shield', 'Bow']
+    weapons = ['Shield', 'Sword', 'Bow']
     # creates a collection of cards
 
     def __init__(self):
@@ -161,33 +166,33 @@ class winGame:
 
 class TestFunctions(unittest.TestCase):
     def test_weapon_eq(self):
-        Sword = Weapon("Sword")
         Shield = Weapon("Shield")
+        Sword = Weapon("Sword")
         Bow = Weapon("Bow")
-        self.assertTrue(Sword == Sword)
         self.assertTrue(Shield == Shield)
+        self.assertTrue(Sword == Sword)
         self.assertTrue(Bow == Bow)
-        self.assertFalse(Bow == Sword)
-        self.assertFalse(Sword == Shield)
-        self.assertFalse(Shield == Bow)
+        self.assertFalse(Bow == Shield)
+        self.assertFalse(Shield == Sword)
+        self.assertFalse(Sword == Bow)
 
     def test_weapon_lt(self):
-        Sword = Weapon("Sword")
         Shield = Weapon("Shield")
+        Sword = Weapon("Sword")
         Bow = Weapon("Bow")
-        self.assertTrue(Sword < Shield)
-        self.assertTrue(Shield < Bow)
-        self.assertTrue(Bow < Sword)
+        self.assertTrue(Shield < Sword)
+        self.assertTrue(Sword < Bow)
+        self.assertTrue(Bow < Shield)
         self.assertFalse(Bow < Bow)
-        self.assertFalse(Sword < Sword)
         self.assertFalse(Shield < Shield)
-        self.assertFalse(Sword < Bow)
-        self.assertFalse(Shield < Sword)
-        self.assertFalse(Bow < Shield)
+        self.assertFalse(Sword < Sword)
+        self.assertFalse(Shield < Bow)
+        self.assertFalse(Sword < Shield)
+        self.assertFalse(Bow < Sword)
 
     def test_card_eq(self):
-        card1 = Card('void', 4, 'Sword')
-        card2 = Card('Crystal', 7, 'Shield')
+        card1 = Card('void', 4, 'Shield')
+        card2 = Card('Crystal', 7, 'Sword')
         card3 = Card('Water', 5, 'Bow')
         self.assertTrue(card1 == card1)
         self.assertTrue(card2 == card2)
@@ -197,9 +202,9 @@ class TestFunctions(unittest.TestCase):
         self.assertFalse(card3 == card1)
 
     def test_card_lt(self):
-        card1 = Card('void', 4, 'Sword')
-        card2 = Card('Crystal', 7, 'Shield')
-        card3 = Card('Water', 5, 'Shield')
+        card1 = Card('void', 4, 'Shield')
+        card2 = Card('Crystal', 7, 'Sword')
+        card3 = Card('Water', 5, 'Sword')
         self.assertTrue(card1 < card2)
         self.assertTrue(card1 < card3)
         self.assertTrue(card3 < card2)
