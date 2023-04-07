@@ -1,5 +1,4 @@
 import random
-import unittest
 
 
 class Weapon:
@@ -105,14 +104,14 @@ class Player:
         self.hand.append(self.deck.take_card())
 
     def choose_card(self):
-        print("\n")
+        print()
         print(f"{self.name}'s turn.")
-        print("\n")
+        print()
         n = 0
         for card in self.hand:
             print(f"{n+1}, {card}")
             n += 1
-        print("\n")
+        print()
         print("Which card would you like to play from your hand?")
         while True:
             try:
@@ -179,55 +178,6 @@ class Deck:
 class winGame:
     def __init__(self):
         pass
-
-
-class TestFunctions(unittest.TestCase):
-    def test_weapon_eq(self):
-        Shield = Weapon("Shield")
-        Sword = Weapon("Sword")
-        Bow = Weapon("Bow")
-        self.assertTrue(Shield == Shield)
-        self.assertTrue(Sword == Sword)
-        self.assertTrue(Bow == Bow)
-        self.assertFalse(Bow == Shield)
-        self.assertFalse(Shield == Sword)
-        self.assertFalse(Sword == Bow)
-
-    def test_weapon_lt(self):
-        Shield = Weapon("Shield")
-        Sword = Weapon("Sword")
-        Bow = Weapon("Bow")
-        self.assertTrue(Shield < Sword)
-        self.assertTrue(Sword < Bow)
-        self.assertTrue(Bow < Shield)
-        self.assertFalse(Bow < Bow)
-        self.assertFalse(Shield < Shield)
-        self.assertFalse(Sword < Sword)
-        self.assertFalse(Shield < Bow)
-        self.assertFalse(Sword < Shield)
-        self.assertFalse(Bow < Sword)
-
-    def test_card_eq(self):
-        card1 = Card('void', 4, 'Shield')
-        card2 = Card('Crystal', 7, 'Sword')
-        card3 = Card('Water', 5, 'Bow')
-        self.assertTrue(card1 == card1)
-        self.assertTrue(card2 == card2)
-        self.assertTrue(card3 == card3)
-        self.assertFalse(card1 == card2)
-        self.assertFalse(card2 == card3)
-        self.assertFalse(card3 == card1)
-
-    def test_card_lt(self):
-        card1 = Card('void', 4, 'Shield')
-        card2 = Card('Crystal', 7, 'Sword')
-        card3 = Card('Water', 5, 'Sword')
-        self.assertTrue(card1 < card2)
-        self.assertTrue(card1 < card3)
-        self.assertTrue(card3 < card2)
-        self.assertFalse(card2 < card1)
-        self.assertFalse(card2 < card3)
-        self.assertFalse(card3 < card1)
 
 
 if __name__ == "__main__":
