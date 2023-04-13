@@ -94,7 +94,8 @@ class OutOfRange(Exception):
 
 
 class Player:
-    def __init__(self):
+    def __init__(self, name):
+        self.name = name
         self.deck = Deck()
         self.deck.shuffle()
         self.hand = self.deck.draw_hand()
@@ -131,14 +132,13 @@ class Player:
 
 class Human(Player):
     def __init__(self):
-        self.name = input("Enter your nickname: ")
-        super().__init__()
+        name = input("Enter your nickname: ")
+        super().__init__(name)
 
 
 class Computer(Player):
     def __init__(self):
-        self.name = "Computer"
-        super().__init__()
+        super().__init__("Computer")
 
     def choose_card(self):
         # the computer randomly selects a card from it's hand
